@@ -1,14 +1,7 @@
-# App name
+# Brushfire
 
-[brief description of the app]
+[A Zendesk app to help Brushfire organizations find their customers orders, attendees and groups in Brushfire]
 
-### The following information is displayed:
 
-* info1
-* info2
-* info3
+Please submit bug reports to help@brushfiretech.com 
 
-Please submit bug reports to [Insert Link](). Pull requests are welcome.
-
-### Screenshot(s):
-[put your screenshots down here.]
