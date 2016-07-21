@@ -1,0 +1,400 @@
+<html>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  type="text/css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  type="text/css" rel="stylesheet" />
+
+<style>
+    *{
+      font-size: 14px;
+    }
+    .hide{
+      display: none;
+    }
+
+</style>
+
+<body>
+  <div class='container'>
+    <div class="js-info-section hide">
+        <div class='js-account-data'>
+          <i class='fa fa-circle-o-notch fa-spin'></i> Loading Account...
+        </div>
+    </div>
+    <div class="js-info-section hide">
+        <div class='js-order-data'>
+          <i class='fa fa-circle-o-notch fa-spin'></i> Loading Orders...
+        </div>
+    </div>
+    <div class=" js-info-section hide">
+        <div class='js-attendee-data'>
+          <i class='fa fa-circle-o-notch fa-spin'></i> Loading Attendees...
+        </div>
+    </div>
+    <div class=" js-info-section hide" style="margin-bottom:15px;">
+        <div class='js-group-data'>
+          <i class='fa fa-circle-o-notch fa-spin'></i> Loading Groups...
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-block js-load-button">Load Brushfire Data</button>
+  </div>
+
+<script id="account-template" type="text/x-handlebars-template">
+    <div class='row'>
+        <div class='col-sm-12'>
+            <strong>{{FirstName}} {{LastName}}</strong>
+            {{#IsUser}}
+              <span class='label label-success'>Admin</span>
+            {{/IsUser}}
+            {{^IsUser}}
+              <span class='label label-default'>Customer</span>
+            {{/IsUser}}
+        </div>
+        <div class='col-sm-12'>
+            {{Email}}
+        </div>
+    </div>
+</script>
+
+<script id="attendee-template" type="text/x-handlebars-template">
+  <table class='table table-condensed'>
+    <thead>
+      <tr>
+        <th>Attendees</th>
+      </tr>
+    </thead>
+    {{#Attendees}}
+    <tr>
+      <td>
+        <div class="row">
+            <div class='col-sm-12'>
+              <a href="https://brushfireapp.com/e/{{EventNumber}}/my-attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a>
+            </div>
+            <div class='col-sm-12'>
+                <em><strong><small>{{TypeName}}</small></strong></em>
+            </div>
+            <div class='col-sm-12'>
+                <em><small>{{TitleInfo}}</small></em>
+            </div>
+        </div>
+      </td>
+    </tr>
+    {{/Attendees}}
+    {{^Attendees}}
+      <tr>
+        <td>
+          <div class='row'>
+            <div class='col-sm-12'>
+              No Attendees Found
+            </div>
+          </div>
+          </td>
+        </tr>
+      {{/Attendees}}
+    </table>
+</script>
+
+<script id="order-template" type="text/x-handlebars-template">
+  <table class='table table-condensed'>
+    <thead>
+      <tr>
+        <th>Orders</th>
+      </tr>
+    </thead>
+    {{#Orders}}
+      <tr>
+        <td>
+          <div class="row">
+              <div class='col-sm-12'>
+                <a href="https://brushfireapp.com/orders/{{OrderKey}}" target="_blank">{{FirstName}} {{LastName}} ({{OrderKey}})</a>{{#IsAdjustment}}<span class='label label-info small' title='Adjustment' style='margin-left: 10px;'><i class='fa fa-exchange'></i> Adjustment</label>{{/IsAdjustment}}
+              </div>
+              <div class='col-sm-12'>
+                  {{Amount}}
+              </div>
+              <div class='col-sm-12'>
+                <em><small>{{OrderedAt}}</small></em>
+              </div>
+          </div>
+        </td>
+      </tr>
+    {{/Orders}}
+    {{^Orders}}
+    <tr>
+      <td>
+        <div class='row'>
+          <div class='col-sm-12'>
+            No Orders Found
+          </div>
+        </div>
+      </td>
+    </tr>
+    {{/Orders}}
+  </table>
+</script>
+
+<script id="group-template" type="text/x-handlebars-template">
+  <table class='table table-condensed'>
+    <thead>
+      <tr>
+        <th>Groups</th>
+      </tr>
+    </thead>
+    {{#Groups}}
+    <tr>
+      <td>
+        <div class="row">
+            <div class='col-sm-12'>
+              <a href="https://brushfireapp.com/e/{{EventNumber}}/details?group={{Id}}&manageCode={{ManageCode}}" target="_blank">{{Name}}</a>
+            </div>
+            <div class='col-sm-12'>
+              <em><small>{{TitleInfo}}</small></em>
+            </div>
+        </div>
+      </td>
+    </tr>
+    {{/Groups}}
+    {{^Groups}}
+    <tr>
+      <td>
+        <div class='row'>
+          <div class='col-sm-12'>
+            No Groups Found
+          </div>
+        </div>
+      </td>
+    </tr>
+    {{/Groups}}
+  </table>
+</script>
+
+	<!-- JQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+  <!-- https://github.com/zendesk/zendesk_app_framework_sdk -->
+  <script type="text/javascript" src="https://assets.zendesk.com/apps/sdk/2.0/zaf_sdk.js"></script>
+  <!--Import handlebars for templating -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <!-- Moment.js for date formatting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment-with-locales.min.js"></script>
+  <!-- CLDR.js -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.5/cldr.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.5/cldr/event.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.5/cldr/supplemental.min.js"></script>
+  <!-- Globalize.js -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/number.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/plural.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/currency.min.js"></script>
+
+  <script>
+    // Initialise the Zendesk JavaScript API client
+    // https://developer.zendesk.com/apps/docs/agent/zaf_v2
+    var client = ZAFClient.init();
+    client.invoke('resize', { width: '100%', height: '400px' });
+
+    var accessKey = "";
+    var email = "";
+    var locale = "en-US";
+    var timeZoneOffset = -300;
+
+    client.get('currentUser').then(function(data)
+     {
+      locale = data.currentUser.locale;
+      timeZoneOffset = data.currentUser.timeZone.offset;
+
+      if(locale == "en-US") locale = "en";
+
+      //initialize globalize based on the user locale
+      $.when(
+        $.get( "cldr-data/supplemental/likelySubtags.json" ),
+        $.get( "cldr-data/main/" + locale + "/numbers.json" ),
+        $.get( "cldr-data/supplemental/numberingSystems.json" ),
+        $.get( "cldr-data/supplemental/plurals.json" ),
+        $.get( "cldr-data/supplemental/ordinals.json" ),
+        $.get( "cldr-data/main/" + locale + "/currencies.json" ),
+        $.get( "cldr-data/supplemental/currencyData.json" )
+      ).then(function() {
+
+        // Normalize $.get results, we only need the JSON, not the request statuses.
+        return [].slice.apply( arguments, [ 0 ] ).map(function( result ) {
+            return result[ 0 ];
+        });
+
+      }).then( Globalize.load ).then(function() {
+          Globalize.locale(locale);
+      });
+     });
+
+    client.metadata().then(function(data)
+    {
+      accessKey = data.settings.accessKey;
+    });
+
+    function getCurrencyFromCulture(culture)
+    {
+      if(culture == "en-AU")
+      {
+        return "AUD";
+      }
+      else if(culture == "en-GB")
+      {
+        return "GBP";
+      }
+      else if(culture == "en-CA")
+      {
+        return "CAD";
+      }
+      else if(culture == "en-ZA" || culture == "af-ZA")
+      {
+        return "ZAR";
+      }
+      else if(culture == "es-MX")
+      {
+        return "MXN";
+      }
+      else if(culture == "uk-UA")
+      {
+        return "UAH";
+      }
+      else if(culture == "de-AT" || culture == "nl-BE" || culture == "fr-BE" || culture == "et-EE" ||
+       culture == "fe-FI" || culture == "sv-FI" || culture == "fr-FR" || culture == "de-DE" || 
+       culture == "el-GR" || culture == "en-IE" || culture == "it-IT" || culture == "lv-LV" ||
+       culture == "lt-LT" || culture == "fr-LU" || culture == "nl-NL" || culture == "pt-PT" ||
+       culture == "sk-SK" || culture == "sl-SI" || culture == "es-ES")
+      {
+        return "EUR";
+      }
+
+      return "USD";
+
+    }
+
+    function LoadData() {
+
+     client.get('ticket').then(function(data)
+     {
+        email = data.ticket.requester.email;
+        var tokenString = btoa(accessKey + ":");
+        var accountUrl = "https://api.brushfireapp.com/accounts/helpdesk/" + email;
+        var attendeeUrl = "https://api.brushfireapp.com/attendees/helpdesk/" + email;
+        var orderUrl = "https://api.brushfireapp.com/orders/helpdesk/" + email;
+        var groupUrl = "https://api.brushfireapp.com/groups/helpdesk/" + email;
+        var requestSettings = {
+            type:"GET",
+            contentType: "application/json",
+
+            beforeSend: function(request)
+            {
+                request.setRequestHeader("Authorization", "Basic " + tokenString);
+                request.setRequestHeader("Api-Version", "Pre-Release");
+            }
+        };
+
+        $(".js-info-section").removeClass("hide");
+
+        $.ajax(accountUrl, requestSettings).done(function(resp)
+        {
+            var accountSource = $("#account-template").html();
+            var template = Handlebars.compile(accountSource);
+            var html = template(resp);
+            $(".js-account-data").html(html);
+
+        }).fail(function(error)
+        {
+            $(".js-account-data").html(error.responseJSON.Message);
+        });
+
+        $.ajax(attendeeUrl, requestSettings).done(function(resp)
+        {
+
+          var data = {  
+            Attendees: $.map(resp, function(obj, i)
+            {
+              return {
+                  Email : email,
+                  FirstName : obj.FirstName,
+                  LastName : obj.LastName,
+                  EventNumber : obj.EventNumber,
+                  TitleInfo : obj.TitleInfo,
+                  AttendeeNumber : obj.AttendeeNumber,
+                  TypeName : obj.TypeName
+              };
+            })
+          };
+
+          var attendeeSource = $("#attendee-template").html();
+          var template = Handlebars.compile(attendeeSource);
+          var html = template(data);
+          $(".js-attendee-data").html(html);
+
+        }).fail(function(error)
+        {
+          $(".js-attendee-data").html(error.responseJSON.Message);
+        });
+
+        $.ajax(orderUrl, requestSettings).done(function(resp)
+        {
+          var data = { 
+            Orders: $.map(resp, function(obj, i)
+            {
+                var orderedAt = moment.utc(obj.OrderedAt).utcOffset(timeZoneOffset);
+                var orderedAtLocal = moment(obj.orderedAtLocal);
+
+                var currency = getCurrencyFromCulture(obj.Culture);                
+
+                orderedAt.local();
+                return {
+                  OrderKey : obj.OrderKey,
+                  OrderedAt : orderedAt.format("LL LT"),
+                  OrderedAtLocal : orderedAtLocal.format("LL LT"),
+                  FirstName : obj.FirstName,
+                  LastName : obj.LastName,
+                  Amount : Globalize.currencyFormatter(currency)(obj.Amount),
+                  Culture : obj.Culture,
+                  IsAdjustment : obj.IsAdjustment
+                };
+            })
+          };
+          
+          var orderSource = $("#order-template").html();
+          var template = Handlebars.compile(orderSource);
+          var html = template(data);
+          $(".js-order-data").html(html);
+
+        }).fail(function(error)
+        {
+          $(".js-order-data").html(error.responseJSON.Message);
+        });
+
+        $.ajax(groupUrl, requestSettings).done(function(resp)
+        {
+
+          var data = { 
+            Groups: resp
+          };
+
+          
+          var groupSource = $("#group-template").html();
+          var template = Handlebars.compile(groupSource);
+          var html = template(data);
+          $(".js-group-data").html(html);
+
+        }).fail(function(error)
+        {
+          $(".js-group-data").html(error.responseJSON.Message);
+        });
+
+
+     });
+
+    }
+
+    $(document).on("click", ".js-load-button", function()
+    {
+        LoadData();
+        $(".js-load-button").addClass("hide");
+    });
+
+
+  </script>
+</body>
+</html>
