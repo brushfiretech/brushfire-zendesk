@@ -11,6 +11,12 @@
       display: none;
     }
 
+    .table-condensed >  tbody > tr > td, 
+    .table-condensed > thead > tr > th,
+    .table-condensed > tfoot > tr > td {
+      padding:0;
+    }
+
 </style>
 
 <body>
@@ -36,7 +42,7 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-block js-load-button">Load Brushfire Data</button>
+    <a class="js-load-button"><img src='search-brushfire.png' style='width:305px;' /></button>
   </div>
 
 <script id="account-template" type="text/x-handlebars-template">
@@ -44,11 +50,18 @@
         <div class='col-sm-12'>
             <strong>{{FirstName}} {{LastName}}</strong>
             {{#IsUser}}
-              <span class='label label-success'>Admin</span>
+              <span class='label label-success'>User</span>
             {{/IsUser}}
             {{^IsUser}}
               <span class='label label-default'>Customer</span>
             {{/IsUser}}
+        </div>
+        <div class='col-sm-12'>
+          <ul class='list-unstyled' style='margin-bottom:0;'>
+          {{#Clients}}
+            <li><small><a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank'>{{ClientName}}</a></small>
+          {{/Clients}}
+          </ul>
         </div>
         <div class='col-sm-12'>
             {{Email}}
@@ -63,24 +76,27 @@
         <th>Attendees</th>
       </tr>
     </thead>
-    {{#Attendees}}
-    <tr>
-      <td>
-        <div class="row">
-            <div class='col-sm-12'>
-              <a href="https://brushfireapp.com/e/{{EventNumber}}/my-attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a>
-            </div>
-            <div class='col-sm-12'>
-                <em><strong><small>{{TypeName}}</small></strong></em>
-            </div>
-            <div class='col-sm-12'>
-                <em><small>{{TitleInfo}}</small></em>
-            </div>
-        </div>
-      </td>
-    </tr>
-    {{/Attendees}}
-    {{^Attendees}}
+    {{#Events}}
+      <tr>
+        <td>
+          <div class="row">
+              <div class='col-sm-12'>
+                <strong>{{TitleInfo}}</strong>
+              </div>
+              <div class='col-sm-12'>
+                  <ul class='list-unstyled'>
+                  {{#Attendees}}
+                    <li>
+                    <a href="https://brushfireapp.com/e/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> - {{TypeName}}
+                    </li>
+                  {{/Attendees}}
+                  </ul>
+              </div>
+          </div>
+        </td>
+      </tr>
+    {{/Events}}
+    {{^Events}}
       <tr>
         <td>
           <div class='row'>
@@ -90,7 +106,7 @@
           </div>
           </td>
         </tr>
-      {{/Attendees}}
+      {{/Events}}
     </table>
 </script>
 
@@ -101,24 +117,27 @@
         <th>Orders</th>
       </tr>
     </thead>
-    {{#Orders}}
-      <tr>
-        <td>
-          <div class="row">
-              <div class='col-sm-12'>
-                <a href="https://brushfireapp.com/orders/{{OrderKey}}" target="_blank">{{FirstName}} {{LastName}} ({{OrderKey}})</a>{{#IsAdjustment}}<span class='label label-info small' title='Adjustment' style='margin-left: 10px;'><i class='fa fa-exchange'></i> Adjustment</label>{{/IsAdjustment}}
-              </div>
-              <div class='col-sm-12'>
-                  {{Amount}}
-              </div>
-              <div class='col-sm-12'>
-                <em><small>{{OrderedAt}}</small></em>
-              </div>
-          </div>
-        </td>
-      </tr>
-    {{/Orders}}
-    {{^Orders}}
+    {{#Events}}
+        <tr>
+          <td>
+            <div class="row">
+                <div class='col-sm-12'>
+                    <strong>{{ObjectName}}</strong>
+                </div>
+                <div class='col-sm-12'>
+                  <ul class='list-unstyled'>
+                    {{#Orders}}
+                      <li>
+                        <a href="https://brushfireapp.com/orders/{{OrderKey}}" target="_blank">{{OrderKey}}</a> - {{Amount}} ({{OrderedAt}})
+                      </li>
+                    {{/Orders}}
+                  </ul>
+                </div>
+            </div>
+          </td>
+        </tr>
+    {{/Events}}
+    {{^Events}}
     <tr>
       <td>
         <div class='row'>
@@ -128,7 +147,7 @@
         </div>
       </td>
     </tr>
-    {{/Orders}}
+    {{/Events}}
   </table>
 </script>
 
@@ -139,31 +158,37 @@
         <th>Groups</th>
       </tr>
     </thead>
-    {{#Groups}}
+    {{#Events}}
     <tr>
       <td>
         <div class="row">
-            <div class='col-sm-12'>
-              <a href="https://brushfireapp.com/e/{{EventNumber}}/details?group={{Id}}&manageCode={{ManageCode}}" target="_blank">{{Name}}</a>
-            </div>
-            <div class='col-sm-12'>
-              <em><small>{{TitleInfo}}</small></em>
-            </div>
+          <div class='col-sm-12'>
+              <strong>{{TitleInfo}}</strong>
+          </div>
+          <div class='col-sm-12'>
+            <ul class='list-unstyled'>
+            {{#Groups}}
+              <li>
+                <a href="https://brushfireapp.com/e/{{EventNumber}}/details?group={{Id}}&manageCode={{ManageCode}}" target="_blank">{{Name}}</a>
+              </li>
+            {{/Groups}}
+            </ul>
+          </div>  
         </div>
       </td>
     </tr>
-    {{/Groups}}
-    {{^Groups}}
+    {{/Events}}
+    {{^Events}}
     <tr>
       <td>
-        <div class='row'>
+        <div class='row'> 
           <div class='col-sm-12'>
             No Groups Found
           </div>
         </div>
       </td>
     </tr>
-    {{/Groups}}
+    {{/Events}}
   </table>
 </script>
 
@@ -293,9 +318,27 @@
 
         $.ajax(accountUrl, requestSettings).done(function(resp)
         {
+            var data = {
+              Id: resp.Id,
+              Email: resp.Email,
+              FirstName: resp.FirstName,
+              LastName: resp.LastName,
+              IsUser: resp.IsUser,
+              AccountNumber:  resp.AccountNumber,
+              Clients: new Array()
+            };
+
+            $.each(resp.ClientRoles, function(i, n)
+            {
+                if( i < 2)
+                {
+                  data.Clients.push(n);
+                }
+            });
+
             var accountSource = $("#account-template").html();
             var template = Handlebars.compile(accountSource);
-            var html = template(resp);
+            var html = template(data);
             $(".js-account-data").html(html);
 
         }).fail(function(error)
@@ -307,19 +350,31 @@
         {
 
           var data = {  
-            Attendees: $.map(resp, function(obj, i)
-            {
-              return {
-                  Email : email,
-                  FirstName : obj.FirstName,
-                  LastName : obj.LastName,
-                  EventNumber : obj.EventNumber,
-                  TitleInfo : obj.TitleInfo,
-                  AttendeeNumber : obj.AttendeeNumber,
-                  TypeName : obj.TypeName
-              };
-            })
+            Events: new Array()
           };
+
+          $.each(resp, function(i, n)
+            {
+              var attendee = {
+                  Email : email,
+                  FirstName : n.FirstName,
+                  LastName : n.LastName,
+                  EventNumber : n.EventNumber,
+                  TitleInfo : n.TitleInfo,
+                  AttendeeNumber : n.AttendeeNumber,
+                  TypeName : n.TypeName
+              };
+
+              if(data.Events[n.EventNumber.toString()] == undefined)
+              {
+                data.Events[n.EventNumber.toString()] = {
+                  TitleInfo: n.TitleInfo,
+                  Attendees: new Array()
+                };
+              }
+
+              data.Events[n.EventNumber.toString()].Attendees.push(attendee);
+            });
 
           var attendeeSource = $("#attendee-template").html();
           var template = Handlebars.compile(attendeeSource);
@@ -334,26 +389,36 @@
         $.ajax(orderUrl, requestSettings).done(function(resp)
         {
           var data = { 
-            Orders: $.map(resp, function(obj, i)
-            {
-                var orderedAt = moment.utc(obj.OrderedAt).utcOffset(timeZoneOffset);
-                var orderedAtLocal = moment(obj.orderedAtLocal);
+            Events: new Array()
+          };
 
-                var currency = getCurrencyFromCulture(obj.Culture);                
+          $.each(resp, function(i, n)
+            {
+                var orderedAt = moment.utc(n.OrderedAt).utcOffset(timeZoneOffset);
+                var orderedAtLocal = moment(n.orderedAtLocal);
+
+                var currency = getCurrencyFromCulture(n.Culture);                
 
                 orderedAt.local();
-                return {
-                  OrderKey : obj.OrderKey,
-                  OrderedAt : orderedAt.format("LL LT"),
-                  OrderedAtLocal : orderedAtLocal.format("LL LT"),
-                  FirstName : obj.FirstName,
-                  LastName : obj.LastName,
-                  Amount : Globalize.currencyFormatter(currency)(obj.Amount),
-                  Culture : obj.Culture,
-                  IsAdjustment : obj.IsAdjustment
+                var order = {
+                  OrderKey : n.OrderKey,
+                  OrderedAt : orderedAt.format("l LT"),
+                  OrderedAtLocal : orderedAtLocal.format("l LT"),
+                  FirstName : n.FirstName,
+                  LastName : n.LastName,
+                  Amount : Globalize.currencyFormatter(currency)(n.Amount),
+                  Culture : n.Culture,
+                  IsAdjustment : n.IsAdjustment
                 };
-            })
-          };
+
+                if(data.Events[n.ObjectNumber.toString()] == undefined)
+                {
+                  console.log(n);
+                    data.Events[n.ObjectNumber.toString()] = { ObjectName: n.ObjectName, Orders: new Array() };
+                }
+
+                data.Events[n.ObjectNumber.toString()].Orders.push(order);
+            });
           
           var orderSource = $("#order-template").html();
           var template = Handlebars.compile(orderSource);
@@ -369,9 +434,21 @@
         {
 
           var data = { 
-            Groups: resp
+            Events: new Array()
           };
 
+          $.each(resp, function(i, n)
+          {
+              if(data.Events[n.EventNumber.toString()] == undefined)
+              {
+                data.Events[n.EventNumber.toString()] = {
+                  TitleInfo: n.TitleInfo,
+                  Groups: new Array()
+                }
+              }
+
+              data.Events[n.EventNumber.toString()].Groups.push(n);
+          });
           
           var groupSource = $("#group-template").html();
           var template = Handlebars.compile(groupSource);
