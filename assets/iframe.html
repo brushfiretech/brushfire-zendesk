@@ -16,13 +16,17 @@
     .table-condensed > tfoot > tr > td {
       padding:0;
     }
+    
+    .table-condensed > thead > tr > th {
+    	background:#ddd;padding:2px;
+    }
 
 </style>
 
 <body>
-  <div class='container'>
+  <div class="container" style="padding-left:0;padding-right:0;">
     <div class="js-info-section hide">
-        <div class='js-account-data'>
+        <div class='js-account-data' style="margin-bottom:20px;">
           <i class='fa fa-circle-o-notch fa-spin'></i> Loading Account...
         </div>
     </div>
@@ -42,7 +46,7 @@
         </div>
     </div>
 
-    <a class="js-load-button"><img src='search-brushfire.png' style='width:305px;' /></button>
+    <a class="js-load-button" href="#"><img src='search-brushfire.png' style='width:305px;' /></button>
   </div>
 
 <script id="account-template" type="text/x-handlebars-template">
@@ -50,20 +54,16 @@
         <div class='col-sm-12'>
             <strong>{{FirstName}} {{LastName}}</strong>
             {{#IsUser}}
-              <span class='label label-success'>User</span>
+              <span class='label label-success'>User: 
+              {{#Clients}}
+		<a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank'>{{ClientName}}</a>&nbsp;
+	      {{/Clients}}
+	      </span>
             {{/IsUser}}
             {{^IsUser}}
               <span class='label label-default'>Customer</span>
             {{/IsUser}}
-        </div>
-        <div class='col-sm-12'>
-          <ul class='list-unstyled' style='margin-bottom:0;'>
-          {{#Clients}}
-            <li><small><a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank'>{{ClientName}}</a></small>
-          {{/Clients}}
-          </ul>
-        </div>
-        <div class='col-sm-12'>
+            <br/>
             {{Email}}
         </div>
     </div>
@@ -465,8 +465,9 @@
 
     }
 
-    $(document).on("click", ".js-load-button", function()
+    $(document).on("click", ".js-load-button", function(e)
     {
+    	e.preventDefault();
         LoadData();
         $(".js-load-button").addClass("hide");
     });
