@@ -11,14 +11,18 @@
       display: none;
     }
 
-    .table-condensed >  tbody > tr > td, 
+    .table-condensed > tbody > tr > td, 
     .table-condensed > thead > tr > th,
     .table-condensed > tfoot > tr > td {
-      padding:0;
+      padding-left:2px;padding-top:0;padding-bottom:0;padding-right:2px;border:none;
     }
     
     .table-condensed > thead > tr > th {
-    	background:#ddd;padding:2px;
+    	background:#ddd;
+    }
+
+    .list-unstyled {
+      padding-left:10px;
     }
 
 </style>
@@ -31,18 +35,51 @@
         </div>
     </div>
     <div class="js-info-section hide">
-        <div class='js-order-data'>
-          <i class='fa fa-circle-o-notch fa-spin'></i> Loading Orders...
+        <div class='js-order-data' style="margin-bottom:20px;">
+        <table class='table table-condensed' style="margin-bottom:0;">
+          <thead>
+            <tr>
+              <th>Orders</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>
+              <i class='fa fa-circle-o-notch fa-spin'></i> Loading Orders...
+            </td>
+          </tr>
+        </table>
         </div>
     </div>
     <div class=" js-info-section hide">
-        <div class='js-attendee-data'>
-          <i class='fa fa-circle-o-notch fa-spin'></i> Loading Attendees...
+        <div class='js-attendee-data' style="margin-bottom:20px;">
+        <table class='table table-condensed' style="margin-bottom:0;">
+          <thead>
+            <tr>
+              <th>Attendees</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>
+              <i class='fa fa-circle-o-notch fa-spin'></i> Loading Attendees...
+            </td>
+          </tr>
+        </table>
         </div>
     </div>
     <div class=" js-info-section hide" style="margin-bottom:15px;">
-        <div class='js-group-data'>
-          <i class='fa fa-circle-o-notch fa-spin'></i> Loading Groups...
+        <div class='js-group-data' style="margin-bottom:20px;">
+        <table class='table table-condensed' style="margin-bottom:0;">
+          <thead>
+            <tr>
+              <th>Groups</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>
+              <i class='fa fa-circle-o-notch fa-spin'></i> Loading Groups...
+            </td>
+          </tr>
+        </table>
         </div>
     </div>
 
@@ -52,25 +89,24 @@
 <script id="account-template" type="text/x-handlebars-template">
     <div class='row'>
         <div class='col-sm-12'>
-            <strong>{{FirstName}} {{LastName}}</strong>
+            <strong>{{FirstName}} {{LastName}}</strong> <small>({{Email}})</small>
+            <br/>
             {{#IsUser}}
-              <span class='label label-success'>User: 
+              <span class='label label-success' style="display:inline-block;">User: 
               {{#Clients}}
-		<a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank'>{{ClientName}}</a>&nbsp;
-	      {{/Clients}}
-	      </span>
+		            <a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank' style="font-size:inherit;color:white;text-decoration:underline;">{{ClientName}}</a>&nbsp;
+	            {{/Clients}}
+	            </span>
             {{/IsUser}}
             {{^IsUser}}
               <span class='label label-default'>Customer</span>
             {{/IsUser}}
-            <br/>
-            {{Email}}
         </div>
     </div>
 </script>
 
 <script id="attendee-template" type="text/x-handlebars-template">
-  <table class='table table-condensed'>
+  <table class='table table-condensed' style="margin-bottom:0;">
     <thead>
       <tr>
         <th>Attendees</th>
@@ -78,16 +114,17 @@
     </thead>
     {{#Events}}
       <tr>
-        <td>
+        <td style="padding-top:10px;">
           <div class="row">
               <div class='col-sm-12'>
-                <strong>{{TitleInfo}}</strong>
+                <strong>{{Title}}</strong>
+                <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
               </div>
               <div class='col-sm-12'>
-                  <ul class='list-unstyled'>
+                  <ul class='list-unstyled' style="margin-bottom:0;">
                   {{#Attendees}}
                     <li>
-                    <a href="https://brushfireapp.com/e/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> - {{TypeName}}
+                    <a href="https://brushfireapp.com/e/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> <small>({{TypeName}})</small>
                     </li>
                   {{/Attendees}}
                   </ul>
@@ -111,7 +148,7 @@
 </script>
 
 <script id="order-template" type="text/x-handlebars-template">
-  <table class='table table-condensed'>
+  <table class='table table-condensed' style="margin-bottom:0;">
     <thead>
       <tr>
         <th>Orders</th>
@@ -119,16 +156,17 @@
     </thead>
     {{#Events}}
         <tr>
-          <td>
+          <td style="padding-top:10px;">
             <div class="row">
                 <div class='col-sm-12'>
-                    <strong>{{ObjectName}}</strong>
+                  <strong>{{Title}}</strong>
+                  <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
                 </div>
                 <div class='col-sm-12'>
-                  <ul class='list-unstyled'>
+                  <ul class='list-unstyled' style="margin-bottom:0;">
                     {{#Orders}}
                       <li>
-                        <a href="https://brushfireapp.com/orders/{{OrderKey}}" target="_blank">{{OrderKey}}</a> - {{Amount}} ({{OrderedAt}})
+                        <a href="https://brushfireapp.com/orders/{{OrderKey}}" target="_blank">{{OrderKey}}</a>: {{Amount}} <small>({{OrderedAt}})</small>
                       </li>
                     {{/Orders}}
                   </ul>
@@ -152,7 +190,7 @@
 </script>
 
 <script id="group-template" type="text/x-handlebars-template">
-  <table class='table table-condensed'>
+  <table class='table table-condensed' style="margin-bottom:0;">
     <thead>
       <tr>
         <th>Groups</th>
@@ -160,13 +198,14 @@
     </thead>
     {{#Events}}
     <tr>
-      <td>
+      <td style="padding-top:10px;">
         <div class="row">
           <div class='col-sm-12'>
-              <strong>{{TitleInfo}}</strong>
+              <strong>{{Title}}</strong>
+              <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{Subtitle}}</div>
           </div>
           <div class='col-sm-12'>
-            <ul class='list-unstyled'>
+            <ul class='list-unstyled' style="margin-bottom:0;">
             {{#Groups}}
               <li>
                 <a href="https://brushfireapp.com/e/{{EventNumber}}/details?group={{Id}}&manageCode={{ManageCode}}" target="_blank">{{Name}}</a>
@@ -310,7 +349,7 @@
             beforeSend: function(request)
             {
                 request.setRequestHeader("Authorization", "Basic " + tokenString);
-                request.setRequestHeader("Api-Version", "Pre-Release");
+                request.setRequestHeader("Api-Version", "2016-08-12");
             }
         };
 
@@ -360,7 +399,8 @@
                   FirstName : n.FirstName,
                   LastName : n.LastName,
                   EventNumber : n.EventNumber,
-                  TitleInfo : n.TitleInfo,
+                  EventTitle : n.EventTitle,
+                  EventSubtitle: n.EventSubtitle,
                   AttendeeNumber : n.AttendeeNumber,
                   TypeName : n.TypeName
               };
@@ -368,7 +408,8 @@
               if(data.Events[n.EventNumber.toString()] == undefined)
               {
                 data.Events[n.EventNumber.toString()] = {
-                  TitleInfo: n.TitleInfo,
+                  Title: n.EventTitle,
+                  Subtitle: n.EventSubtitle,
                   Attendees: new Array()
                 };
               }
@@ -413,8 +454,7 @@
 
                 if(data.Events[n.ObjectNumber.toString()] == undefined)
                 {
-                  console.log(n);
-                    data.Events[n.ObjectNumber.toString()] = { ObjectName: n.ObjectName, Orders: new Array() };
+                    data.Events[n.ObjectNumber.toString()] = { Title: n.ObjectTitle, Subtitle: n.ObjectSubtitle, Orders: new Array() };
                 }
 
                 data.Events[n.ObjectNumber.toString()].Orders.push(order);
@@ -442,7 +482,8 @@
               if(data.Events[n.EventNumber.toString()] == undefined)
               {
                 data.Events[n.EventNumber.toString()] = {
-                  TitleInfo: n.TitleInfo,
+                  Title: n.EventTitle,
+                  Subtitle: n.EventSubtitle,
                   Groups: new Array()
                 }
               }
