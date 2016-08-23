@@ -1,16 +1,7 @@
 {
-  "app": {
-    "description": "Play the famous zen tunes in your help desk.",
-    "name": "Buddha Machine"
-  },
-  "loading": "Welcome to this Sample App",
-  "fetch": {
-    "done": "Good",
-    "fail": "failed to fetch information from the server"
-  },
-  "id": "ID",
-  "email": "Email",
-  "name": "Name",
-  "role": "Role",
-  "groups": "Groups"
+  "app" : {
+    "parameters": {
+      "accessKey" : { "label" : "Brushfire API Key", "helpText" : "This is the API Key which you use to access the Brushfire API. Request a key at https://developer.brushfireapp.com/key" }
+    }
+  }
 }
