@@ -1,0 +1,34 @@
+Jorin Slaybaugh
+jorin@brushfiretech.com
+Clayton Waters
+info@brushfiretech.com
+8668258252
+Operations Manager
+New app
+Brushfire
+Public App
+E-commerce & CRM
+help@brushfiretech.com
+
+
+View related Brushfire attendees, orders, and groups alongside tickets
+
+=======================
+
+With this app installed, you're a single click away from searching all across Brushfire for attendees, orders, groups, or customer accounts that match the email address of the owner of the currently visible ticket.
+
+=======================
+
+To Install the Brushfire app:
+
+1. Sign into your Zendesk, then click the Admin icon (the gear) in the sidebar.
+2. Select Apps > Browse, then find the Brushfire app and click the tile.
+3. On the Brushfire app page, click **Install app** in the upper-right corner.
+4. Enter a descriptive name for your app, then click **Install.**
+5. Provide your API Key in Brushfire > App Configuration > **Brushfire API Key**.
+
+Note: To get an API Key, please request one using the form at https://developer.brushfireapp.com/key and specify that you are setting up your Zendesk integration.
+
+=======================
+
+https://github.com/brushfiretech/brushfire-zendesk/
