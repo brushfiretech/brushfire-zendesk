@@ -24,6 +24,10 @@
     .list-unstyled {
       padding-left:10px;
     }
+    
+    span.label.label-default{margin-right: 3px; font-weight: 500}
+    
+    span.label.label-default.email{text-transform: lowercase}
 
 </style>
 
@@ -89,7 +93,7 @@
 <script id="account-template" type="text/x-handlebars-template">
     <div class='row'>
         <div class='col-sm-12'>
-            <strong>{{FirstName}} {{LastName}}</strong> <small>({{Email}})</small>
+            <strong>{{FirstName}} {{LastName}}</strong>
             <br/>
             {{#IsUser}}
               <span class='label label-success' style="display:inline-block;">User: 
@@ -99,7 +103,7 @@
 	            </span>
             {{/IsUser}}
             {{^IsUser}}
-              <span class='label label-default'>Customer</span>
+              <span class='label label-default'>Customer</span><span class='label label-default email'>({{Email}})</span>
             {{/IsUser}}
         </div>
     </div>
