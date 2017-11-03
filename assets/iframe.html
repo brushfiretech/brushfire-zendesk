@@ -117,7 +117,7 @@
         <td style="padding-top:10px;">
           <div class="row">
               <div class='col-sm-12'>
-                <strong>{{Title}}</strong>
+               <a href="https://brushfireapp.com/e/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
                 <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
               </div>
               <div class='col-sm-12'>
@@ -159,7 +159,7 @@
           <td style="padding-top:10px;">
             <div class="row">
                 <div class='col-sm-12'>
-                  <strong>{{Title}}</strong>
+                  <a href="https://brushfireapp.com/e/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
                   <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
                 </div>
                 <div class='col-sm-12'>
@@ -201,7 +201,7 @@
       <td style="padding-top:10px;">
         <div class="row">
           <div class='col-sm-12'>
-              <strong>{{Title}}</strong>
+              <a href="https://brushfireapp.com/e/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
               <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
           </div>
           <div class='col-sm-12'>
@@ -388,7 +388,7 @@
         $.ajax(attendeeUrl, requestSettings).done(function(resp)
         {
 
-          var data = {  
+          var data = {
             Events: new Array()
           };
 
