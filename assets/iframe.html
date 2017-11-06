@@ -414,13 +414,14 @@
                 data.Events[n.EventNumber.toString()] = {
                   Title: n.EventTitle,
                   Subtitle: n.EventSubtitle,
+                  EventNumber : n.EventNumber,
                   Attendees: new Array()
                 };
               }
 
               data.Events[n.EventNumber.toString()].Attendees.push(attendee);
             });
-
+// 			console.log(data);
           var attendeeSource = $("#attendee-template").html();
           var template = Handlebars.compile(attendeeSource);
           var html = template(data);
