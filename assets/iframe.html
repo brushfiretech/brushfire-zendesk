@@ -1,6 +1,6 @@
 <html>
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  type="text/css" rel="stylesheet" />
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  type="text/css" rel="stylesheet" />
 
 <style>
@@ -91,6 +91,14 @@
   </div>
 
 <script id="account-template" type="text/x-handlebars-template">
+    <div class="row">
+	    <div class="col-sm-12">
+		    <form class="form-inline">
+  				<input type="email" style="width: 88%; display: inline" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Search email">
+  				<button type="submit" style="width: 10%; width: 10%; height: 34px; text-align: center; float: right; padding: 0;" class="btn btn-default"><i class="fa fa-search"></i></button>	
+  			</form>
+	    </div>
+    </div>
     <div class='row'>
         <div class='col-sm-12'>
             <strong>{{FirstName}} {{LastName}}</strong>
