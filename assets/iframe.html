@@ -33,6 +33,16 @@
 
 <body>
   <div class="container" style="padding-left:0;padding-right:0;">
+    
+    <div class="row">
+	    <div class="col-sm-12">Search Brushfire for orders, attendees and/or groups via user's email.</div>
+	    <div class="col-sm-12">
+		    <form class="form-inline">
+  				<input type="email" style="width: 88%; display: inline" class="form-control" id="bfEmail" value="">
+  				<button type="submit" style="width: 10%; width: 10%; height: 34px; text-align: center; float: right; padding: 0;" class="btn btn-default js-load-button"><i class="fa fa-search"></i></button>	
+  			</form>
+	    </div>
+    </div> 
     <div class="js-info-section hide">
         <div class='js-account-data' style="margin-bottom:20px;">
           <i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts...
@@ -86,18 +96,11 @@
         </table>
         </div>
     </div>
-    <a class="js-load-button" href="#"><img src='search-brushfire.png' style='width:305px;' /></button>
+   <!--  <a class="js-load-button" href="#"><img src='search-brushfire.png' style='width:305px;' /></button> -->
+	   
   </div>
 
 <script id="account-template" type="text/x-handlebars-template">
-    <div class="row">
-	    <div class="col-sm-12">
-		    <form class="form-inline">
-  				<input type="email" style="width: 88%; display: inline" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{Email}}">
-  				<button type="submit" style="width: 10%; width: 10%; height: 34px; text-align: center; float: right; padding: 0;" class="btn btn-default js-load-button"><i class="fa fa-search"></i></button>	
-  			</form>
-	    </div>
-    </div>
     <div class='row'>
         <div class='col-sm-12'>
             <strong>{{FirstName}} {{LastName}}</strong>
@@ -128,14 +131,14 @@
         <td style="padding-top:10px;">
           <div class="row">
               <div class='col-sm-12'>
-               <a href="https://brushfireapp.com/e/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
+               <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
                 <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
               </div>
               <div class='col-sm-12'>
                   <ul class='list-unstyled' style="margin-bottom:0;">
                   {{#Attendees}}
                     <li>
-                    <a href="https://brushfireapp.com/e/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> <small>({{TypeName}})</small>
+                    <a href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> <small>({{TypeName}})</small>
                     </li>
                   {{/Attendees}}
                   </ul>
@@ -170,14 +173,14 @@
           <td style="padding-top:10px;">
             <div class="row">
                 <div class='col-sm-12'>
-                  <a href="https://brushfireapp.com/e/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
+                  <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
                   <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
                 </div>
                 <div class='col-sm-12'>
                   <ul class='list-unstyled' style="margin-bottom:0;">
                     {{#Orders}}
                       <li>
-                        <a href="https://brushfireapp.com/orders/{{OrderKey}}" target="_blank">{{OrderKey}}</a>: {{Amount}} <small>({{OrderedAt}})</small>
+                        <a href="https://brushfire.com/orders/{{OrderKey}}" target="_blank">{{OrderKey}}</a>: {{Amount}} <small>({{OrderedAt}})</small>
                       </li>
                     {{/Orders}}
                   </ul>
@@ -212,14 +215,14 @@
       <td style="padding-top:10px;">
         <div class="row">
           <div class='col-sm-12'>
-              <a href="https://brushfireapp.com/e/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
+              <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
               <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
           </div>
           <div class='col-sm-12'>
             <ul class='list-unstyled' style="margin-bottom:0;">
             {{#Groups}}
               <li>
-                <a href="https://brushfireapp.com/e/{{EventNumber}}/groups?group={{Id}}&manageCode={{ManageCode}}" target="_blank">{{Name}}</a>
+                <a href="https://brushfire.com/{{EventNumber}}/groups?group={{Id}}&manageCode={{ManageCode}}" target="_blank">{{Name}}</a>
               </li>
             {{/Groups}}
             </ul>
@@ -297,12 +300,21 @@
       }).then( Globalize.load ).then(function() {
           Globalize.locale(locale);
       });
+     
      });
+
+	client.get('ticket').then(function(data) {
+	  email = data.ticket.requester.email;
+	  document.getElementById('bfEmail').value = email;
+	  
+	});
 
     client.metadata().then(function(data)
     {
       accessKey = data.settings.accessKey;
     });
+    
+   
 
     function getCurrencyFromCulture(culture)
     {
@@ -342,12 +354,14 @@
       return "USD";
 
     }
-
+	
+	
+    
     function LoadData() {
 
      client.get('ticket').then(function(data)
      {
-        email = data.ticket.requester.email;
+       // email = data.ticket.requester.email;
         var tokenString = btoa(accessKey + ":");
         var accountUrl = "https://api.brushfireapp.com/accounts/helpdesk/" + email;
         var attendeeUrl = "https://api.brushfireapp.com/attendees/helpdesk/" + email;
@@ -363,7 +377,7 @@
                 request.setRequestHeader("Api-Version", "2016-08-12");
             }
         };
-
+		
         $(".js-info-section").removeClass("hide");
 
         $.ajax(accountUrl, requestSettings).done(function(resp)
@@ -517,17 +531,17 @@
         {
           $(".js-group-data").html(error.responseJSON.Message);
         });
-
-
+		//document.getElementById('bfEmail').value = email;
+		
      });
-
+	 
     }
 
     $(document).on("click", ".js-load-button", function(e)
     {
     	e.preventDefault();
         LoadData();
-        $(".js-load-button").addClass("hide");
+        //$(".js-load-button").addClass("hide");
     });
 
 
