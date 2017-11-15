@@ -35,20 +35,22 @@
   <div class="container" style="padding-left:0;padding-right:0;">
     
     <div class="row">
-	    <div class="col-sm-12">Search Brushfire for orders, attendees and/or groups via user's email.</div>
+	    <div class="col-sm-12" style="margin-bottom: 10px">Search Brushfire for orders, attendees and/or groups via user's email.</div>
 	    <div class="col-sm-12">
-		    <form class="form-inline">
+		    <form class="form-inline js-search-form">
   				<input type="email" style="width: 88%; display: inline" class="form-control" id="bfEmail" value="">
-  				<button type="submit" style="width: 10%; width: 10%; height: 34px; text-align: center; float: right; padding: 0;" class="btn btn-default js-load-button"><i class="fa fa-search"></i></button>	
+  				<button type="submit" style="width: 10%; width: 10%; height: 34px; text-align: center; float: right; padding: 0;" class="btn btn-default"><i class="fa fa-search"></i></button>	
   			</form>
 	    </div>
     </div> 
-    <div class="js-info-section hide">
+    
+    <div class="js-info-section">
         <div class='js-account-data' style="margin-bottom:20px;">
-          <i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts...
+<!--           <i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts... -->
         </div>
     </div>
-    <div class="js-info-section hide">
+    
+    <div class="js-info-section">
         <div class='js-order-data' style="margin-bottom:20px;">
         <table class='table table-condensed' style="margin-bottom:0;">
           <thead>
@@ -57,14 +59,15 @@
             </tr>
           </thead>
           <tr>
-            <td>
-              <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...
+            <td class="js-orders-pending">
+<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... -->
             </td>
           </tr>
         </table>
         </div>
     </div>
-    <div class=" js-info-section hide">
+    
+    <div class=" js-info-section">
         <div class='js-attendee-data' style="margin-bottom:20px;">
         <table class='table table-condensed' style="margin-bottom:0;">
           <thead>
@@ -73,14 +76,15 @@
             </tr>
           </thead>
           <tr>
-            <td>
-              <i class='fa fa-circle-o-notch fa-spin'></i> Searching Attendees...
+            <td class="js-attendees-pending">
+<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Attendees... -->
             </td>
           </tr>
         </table>
         </div>
     </div>
-    <div class=" js-info-section hide" style="margin-bottom:15px;">
+    
+    <div class=" js-info-section" style="margin-bottom:15px;">
         <div class='js-group-data' style="margin-bottom:20px;">
         <table class='table table-condensed' style="margin-bottom:0;">
           <thead>
@@ -89,8 +93,8 @@
             </tr>
           </thead>
           <tr>
-            <td>
-              <i class='fa fa-circle-o-notch fa-spin'></i> Searching Groups...
+            <td class="js-groups-pending">
+<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Groups... -->
             </td>
           </tr>
         </table>
@@ -128,7 +132,7 @@
     </thead>
     {{#Events}}
       <tr>
-        <td style="padding-top:10px;">
+        <td class="js-attendees-pending"style="padding-top:10px;">
           <div class="row">
               <div class='col-sm-12'>
                <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
@@ -149,7 +153,7 @@
     {{/Events}}
     {{^Events}}
       <tr>
-        <td>
+        <td class="js-attendees-pending">
           <div class='row'>
             <div class='col-sm-12'>
               No Attendees Found
@@ -170,7 +174,7 @@
     </thead>
     {{#Events}}
         <tr>
-          <td style="padding-top:10px;">
+          <td class="js-orders-pending" style="padding-top:10px;">
             <div class="row">
                 <div class='col-sm-12'>
                   <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
@@ -191,7 +195,7 @@
     {{/Events}}
     {{^Events}}
     <tr>
-      <td>
+      <td class="js-orders-pending">
         <div class='row'>
           <div class='col-sm-12'>
             No Orders Found
@@ -212,7 +216,7 @@
     </thead>
     {{#Events}}
     <tr>
-      <td style="padding-top:10px;">
+      <td class="js-groups-pending" style="padding-top:10px;">
         <div class="row">
           <div class='col-sm-12'>
               <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
@@ -233,7 +237,7 @@
     {{/Events}}
     {{^Events}}
     <tr>
-      <td>
+      <td class="js-groups-pending">
         <div class='row'> 
           <div class='col-sm-12'>
             No Groups Found
@@ -357,11 +361,12 @@
 	
 	
     
-    function LoadData() {
+    function LoadData(email) {
 
      client.get('ticket').then(function(data)
      {
-       // email = data.ticket.requester.email;
+       
+        
         var tokenString = btoa(accessKey + ":");
         var accountUrl = "https://api.brushfireapp.com/accounts/helpdesk/" + email;
         var attendeeUrl = "https://api.brushfireapp.com/attendees/helpdesk/" + email;
@@ -378,7 +383,11 @@
             }
         };
 		
-        $(".js-info-section").removeClass("hide");
+        //$(".js-info-section").removeClass("hide");
+        $(".js-account-data").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts...");
+        $(".js-orders-pending").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...");
+        $(".js-attendees-pending").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Attendees...");
+		$(".js-groups-pending").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Groups...");
 
         $.ajax(accountUrl, requestSettings).done(function(resp)
         {
@@ -531,19 +540,16 @@
         {
           $(".js-group-data").html(error.responseJSON.Message);
         });
-		//document.getElementById('bfEmail').value = email;
+		//document.getElementById('bfEmail').value;
 		
      });
 	 
     }
-
-    $(document).on("click", ".js-load-button", function(e)
-    {
-    	e.preventDefault();
-        LoadData();
-        //$(".js-load-button").addClass("hide");
-    });
-
+    
+	$(document).on("submit", ".js-search-form", function(e) {  
+		e.preventDefault();
+        LoadData($("#bfEmail").val());
+	});
 
   </script>
 </body>
