@@ -11,23 +11,43 @@
       display: none;
     }
 
-    .table-condensed > tbody > tr > td, 
+	.table-condensed > thead > tr > th{
+		font-size: 18px;
+		font-weight: 300;
+		letter-spacing: 1px;
+	}
+ 
     .table-condensed > thead > tr > th,
     .table-condensed > tfoot > tr > td {
-      padding-left:2px;padding-top:0;padding-bottom:0;padding-right:2px;border:none;
+      padding: 4px 8px;
+      border:none;
+
     }
     
     .table-condensed > thead > tr > th {
-    	background:#ddd;
+    	background:#ececec;
     }
 
     .list-unstyled {
       padding-left:10px;
     }
     
-    span.label.label-default{margin-right: 3px; font-weight: 500}
+    h4{
+	    margin-top:0; 
+    }
     
-    span.label.label-default.email{text-transform: lowercase}
+    h5.event-title{
+	    font-size: 17px;
+	    margin: 4px 0 6px;
+    }
+    
+    a{
+	    color: #0C7FBF
+    }
+    
+    h6.label.label-default{font-size: 12px;background: #f17105; margin-right: 3px; font-weight: 500}
+    
+    h6.label.label-default.email{background: #474747;text-transform: lowercase}
 
 </style>
 
@@ -35,7 +55,7 @@
   <div class="container" style="padding-left:0;padding-right:0;">
     
     <div class="row">
-	    <div class="col-sm-12" style="margin-bottom: 10px">Search Brushfire for orders, attendees and/or groups via user's email.</div>
+	    <div class="col-sm-12" style="margin-bottom: 10px; font-size: 12px;">Search Brushfire for orders, attendees and/or groups via user's email.</div>
 	    <div class="col-sm-12">
 		    <form class="form-inline js-search-form">
   				<input type="email" style="width: 88%; display: inline" class="form-control" id="bfEmail" value="">
@@ -107,17 +127,16 @@
 <script id="account-template" type="text/x-handlebars-template">
     <div class='row'>
         <div class='col-sm-12'>
-            <strong>{{FirstName}} {{LastName}}</strong>
-            <br/>
+            <h4>{{FirstName}} {{LastName}}</h4>
             {{#IsUser}}
-              <span class='label label-success' style="display:inline-block;">User: 
+              <h6 class='label label-success' style="display:inline-block;">User: 
               {{#Clients}}
 		            <a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank' style="font-size:inherit;color:white;text-decoration:underline;">{{ClientName}}</a>&nbsp;
 	            {{/Clients}}
-	            </span>
+	            </h6>
             {{/IsUser}}
             {{^IsUser}}
-              <span class='label label-default'>Customer</span><span class='label label-default email'>({{Email}})</span>
+              <h6 class='label label-default'>Customer</h6><h6 class='label label-default email'>{{Email}}</h6>
             {{/IsUser}}
         </div>
     </div>
@@ -133,12 +152,16 @@
     {{#Events}}
       <tr>
         <td class="js-attendees-pending"style="padding-top:10px;">
+<!--
           <div class="row">
               <div class='col-sm-12'>
-               <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
+-->
+               <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
                 <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
+<!--
               </div>
               <div class='col-sm-12'>
+-->
                   <ul class='list-unstyled' style="margin-bottom:0;">
                   {{#Attendees}}
                     <li>
@@ -146,19 +169,25 @@
                     </li>
                   {{/Attendees}}
                   </ul>
+<!--
               </div>
           </div>
+-->
         </td>
       </tr>
     {{/Events}}
     {{^Events}}
       <tr>
         <td class="js-attendees-pending">
+<!--
           <div class='row'>
             <div class='col-sm-12'>
+-->
               No Attendees Found
+<!--
             </div>
           </div>
+-->
           </td>
         </tr>
       {{/Events}}
@@ -175,12 +204,16 @@
     {{#Events}}
         <tr>
           <td class="js-orders-pending" style="padding-top:10px;">
+<!--
             <div class="row">
                 <div class='col-sm-12'>
-                  <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
+-->
+                  <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
                   <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
+<!--
                 </div>
                 <div class='col-sm-12'>
+-->
                   <ul class='list-unstyled' style="margin-bottom:0;">
                     {{#Orders}}
                       <li>
@@ -188,8 +221,10 @@
                       </li>
                     {{/Orders}}
                   </ul>
+<!--
                 </div>
             </div>
+-->
           </td>
         </tr>
     {{/Events}}
@@ -217,12 +252,16 @@
     {{#Events}}
     <tr>
       <td class="js-groups-pending" style="padding-top:10px;">
+<!--
         <div class="row">
           <div class='col-sm-12'>
-              <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><strong>{{Title}}</strong></a>
+-->
+              <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
               <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
+<!--
           </div>
           <div class='col-sm-12'>
+-->
             <ul class='list-unstyled' style="margin-bottom:0;">
             {{#Groups}}
               <li>
@@ -230,8 +269,10 @@
               </li>
             {{/Groups}}
             </ul>
+<!--
           </div>  
         </div>
+-->
       </td>
     </tr>
     {{/Events}}
@@ -379,7 +420,7 @@
             beforeSend: function(request)
             {
                 request.setRequestHeader("Authorization", "Basic " + tokenString);
-                request.setRequestHeader("Api-Version", "2016-08-12");
+                request.setRequestHeader("Api-Version", "2017-08-28");
             }
         };
 		
