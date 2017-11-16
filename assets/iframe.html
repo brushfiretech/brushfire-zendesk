@@ -37,8 +37,8 @@
 		padding: 4px 8px;
 		margin: 0;
     }
-    . js-account-data, .js-orders-pending, .js-attendees-pending, .js-groups-pending{
-	    padding: 2% 3%;
+    .js-account-data, .js-orders-pending, .js-attendees-pending, .js-groups-pending{
+	    padding: 2% 0;
     }
     
     
@@ -64,7 +64,7 @@
     h6.label.label-default.email{background: #474747;text-transform: lowercase}
     
     .js-account-data{
-	    margin-bottom: 20px;
+	    margin-bottom: 2%;
     }
     
     .empty-return{
@@ -219,13 +219,30 @@
                     <li>
                     <a class="att-name" href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> 
                     <span class="status">
+<!--
                     {{#StatusLink}}
                                   <a href="https://brushfire.com/{{EventNumber}}">{{Status}}</a>
                     {{/StatusLink}}
                     {{^StatusLink}}
                                {{Status}}
                     {{/StatusLink}}
+-->
+                    
+                    {{#StatusReserved}}
+                    	 <a class="reserved" href="https://brushfire.com/{{EventNumber}}">{{Status}}</a>
+                    {{/StatusReserved}}
+                    {{#StatusCancelled}}
+                    	 <a class="cancelled" href="https://brushfire.com/{{EventNumber}}">{{Status}}</a>
+                    {{/StatusCancelled}}
+                    {{#StatusBlank}}
+                    		{{Status}}
+                    {{/StatusBlank}}
                     </span>
+                    
+                    
+                    
+                    
+                    
                     <div class="ticket-type">({{TypeName}})</div>
                     </li>
                   {{/Attendees}}
@@ -450,8 +467,8 @@
 		
         $(".js-account-data").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts...");
         $(".js-order-data").html("<div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Orders</h3><div class='js-orders-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
-        $(".js-attendees-pending").html(" <div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Attendees</h3><div class='js-attendees-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
-		$(".js-groups-pending").html("<div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Groups</h3><div class='js-groups-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
+        $(".js-attendee-data").html(" <div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Attendees</h3><div class='js-attendees-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
+		$(".js-group-data").html("<div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Groups</h3><div class='js-groups-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
 
         $.ajax(accountUrl, requestSettings).done(function(resp)
         {
@@ -500,14 +517,17 @@
                   LastName : n.LastName,
                   EventNumber : n.EventNumber,
                   Status : n.Status,
-                  //StatusLink: n.Status === "Reserved" || n.Status === "Canceled",
                   EventTitle : n.EventTitle,
                   EventSubtitle: n.EventSubtitle,
                   AttendeeNumber : n.AttendeeNumber,
                   TypeName : n.TypeName
               };
               
-              attendee.StatusLink = n.Status === "Reserved" || n.Status == "Canceled";
+ //             attendee.StatusLink = n.Status === "Reserved" || n.Status == "Canceled";
+			  
+			  attendee.StatusReserved = n.Status === "Reserved";
+			  attendee.StatusCanceled = n.Status === "Canceled";
+			  attendee.StatusBlank = n.Status != "Reserved" && n.Status != "Cancelled";
 			  
               if(data.Events[n.EventNumber.toString()] == undefined)
               {
