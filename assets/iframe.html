@@ -52,13 +52,20 @@
     }
     
     a{
-	    color: #269BD8
+	    color: #269BD8;
+    }
+    
+    a:hover{
+	    color: rgba(38, 155, 216, 0.8);
     }
     
     h6.label.label-default{font-size: 12px;background: #f17105; margin-right: 3px; font-weight: 500}
     
     h6.label.label-default.email{background: #474747;text-transform: lowercase}
     
+    .js-account-data{
+	    margin-bottom: 20px;
+    }
     
     .empty-return{
 	    background: #565656;
@@ -75,7 +82,7 @@
     .no-account{
 	    font-style: italic;
 	    color: #262626;
-	    padding: 2% 4%;
+	    padding: 2% 4% 2% 0; 
 	    font-size: 18px;
 		font-weight: 300;
 		margin: 4px 0 0 0;
@@ -107,6 +114,9 @@
 	    text-decoration: none;
 	    background: rgba(40, 155, 217, 0.68);
     }
+    a.att-name{
+	    font-size: 16px;
+    }
 
 </style>
 
@@ -124,7 +134,7 @@
     </div> 
     
     <div class="js-info-section">
-        <div class='js-account-data' style="margin-bottom:20px;">
+        <div class='js-account-data'>
 <!--           <i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts... -->
         </div>
     </div>
@@ -133,12 +143,14 @@
     
     <div class="js-info-section">
         <div class='js-order-data' style="margin-bottom:20px;">
+<!--
         <div class='table table-condensed' style="margin-bottom:0;">
               <h3 class="section-title">Orders</h3>
             <div class="js-orders-pending">
-<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... -->
+              <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... 
             </div>
         </div>
+-->
         </div>
     </div> 
     
@@ -146,24 +158,28 @@
     
     <div class="js-info-section">
         <div class='js-attendee-data' style="margin-bottom:20px;">
+<!--
         <div class='table table-condensed' style="margin-bottom:0;">
               <h3 class="section-title">Attendees</h3>
             <div class="js-attendees-pending">
-<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... -->
+            <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... 
             </div>
         </div>
+-->
         </div>
     </div> 
     
 
     <div class="js-info-section">
         <div class='js-group-data' style="margin-bottom:20px;">
+<!--
         <div class='table table-condensed' style="margin-bottom:0;">
               <h3 class="section-title">Groups</h3>
             <div class="js-groups-pending">
-<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... -->
+				<i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...
             </div>
         </div>
+-->
         </div>
     </div> 
 	   
@@ -201,7 +217,7 @@
                   <ul class='list-unstyled' style="margin-bottom:0;">
                   {{#Attendees}}
                     <li>
-                    <a href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> 
+                    <a class="att-name" href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> 
                     <span class="status">
                     {{#StatusLink}}
                                   <a href="https://brushfire.com/{{EventNumber}}">{{Status}}</a>
@@ -432,11 +448,10 @@
             }
         };
 		
-        //$(".js-info-section").removeClass("hide");
         $(".js-account-data").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts...");
-        $(".js-orders-pending").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...");
-        $(".js-attendees-pending").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Attendees...");
-		$(".js-groups-pending").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Groups...");
+        $(".js-order-data").html("<div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Orders</h3><div class='js-orders-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
+        $(".js-attendees-pending").html(" <div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Attendees</h3><div class='js-attendees-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
+		$(".js-groups-pending").html("<div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Groups</h3><div class='js-groups-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
 
         $.ajax(accountUrl, requestSettings).done(function(resp)
         {
