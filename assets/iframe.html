@@ -28,8 +28,21 @@
     	background:#ececec;
     }
 
-    .list-unstyled {
-      padding-left:10px;
+    
+    h3.section-title{
+	    font-size: 18px;
+		font-weight: 300;
+		letter-spacing: 1px;
+		background:#ececec;
+		padding: 4px 8px;
+		margin: 0;
+    }
+    .js-orders-pending, .js-attendees-pending, .js-groups-pending{
+	    padding: 2% 3%;
+    }
+    
+    .js-orders-pending.empty, .js-attendees-pending.empty, .js-groups-pending.empty{
+	    padding: 2% 0;
     }
     
     h4{
@@ -42,21 +55,47 @@
     }
     
     a{
-	    color: #0C7FBF
+	    color: #269BD8
     }
     
     h6.label.label-default{font-size: 12px;background: #f17105; margin-right: 3px; font-weight: 500}
     
     h6.label.label-default.email{background: #474747;text-transform: lowercase}
+    
+    
+    .empty-return{
+	    background: #565656;
+	    font-style: italic;
+	    color: #fff;
+		font-size: 12px;
+		font-weight: 400;
+		margin: 4px 0 0 0;
+		padding: 2% 4%;
+		display: inline-block;
+		border-radius: 3px
+    }
+    
+    .no-account{
+	    background: #BF302B;
+	    font-style: italic;
+	    color: #fff;
+	    padding: 2% 4%;
+	    font-size: 16px;
+		font-weight: 300;
+		margin: 4px 0 0 0;
+		display: inline-block;
+		border-radius: 3px
+	    
+    }
 
 </style>
 
 <body>
   <div class="container" style="padding-left:0;padding-right:0;">
     
-    <div class="row">
-	    <div class="col-sm-12" style="margin-bottom: 10px; font-size: 12px;">Search Brushfire for orders, attendees and/or groups via user's email.</div>
-	    <div class="col-sm-12">
+    <div>
+	    <div style="margin-bottom: 10px; font-size: 12px;">Search Brushfire for orders, attendees and/or groups via user's email.</div>
+	    <div class="form-container">
 		    <form class="form-inline js-search-form">
   				<input type="email" style="width: 88%; display: inline" class="form-control" id="bfEmail" value="">
   				<button type="submit" style="width: 10%; width: 10%; height: 34px; text-align: center; float: right; padding: 0;" class="btn btn-default"><i class="fa fa-search"></i></button>	
@@ -70,63 +109,48 @@
         </div>
     </div>
     
+
+    
     <div class="js-info-section">
         <div class='js-order-data' style="margin-bottom:20px;">
-        <table class='table table-condensed' style="margin-bottom:0;">
-          <thead>
-            <tr>
-              <th>Orders</th>
-            </tr>
-          </thead>
-          <tr>
-            <td class="js-orders-pending">
+        <div class='table table-condensed' style="margin-bottom:0;">
+              <h3 class="section-title">Orders</h3>
+            <div class="js-orders-pending">
 <!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... -->
-            </td>
-          </tr>
-        </table>
+            </div>
         </div>
-    </div>
+        </div>
+    </div> 
     
-    <div class=" js-info-section">
+
+    
+    <div class="js-info-section">
         <div class='js-attendee-data' style="margin-bottom:20px;">
-        <table class='table table-condensed' style="margin-bottom:0;">
-          <thead>
-            <tr>
-              <th>Attendees</th>
-            </tr>
-          </thead>
-          <tr>
-            <td class="js-attendees-pending">
-<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Attendees... -->
-            </td>
-          </tr>
-        </table>
+        <div class='table table-condensed' style="margin-bottom:0;">
+              <h3 class="section-title">Attendees</h3>
+            <div class="js-attendees-pending">
+<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... -->
+            </div>
         </div>
-    </div>
+        </div>
+    </div> 
     
-    <div class=" js-info-section" style="margin-bottom:15px;">
+
+    <div class="js-info-section">
         <div class='js-group-data' style="margin-bottom:20px;">
-        <table class='table table-condensed' style="margin-bottom:0;">
-          <thead>
-            <tr>
-              <th>Groups</th>
-            </tr>
-          </thead>
-          <tr>
-            <td class="js-groups-pending">
-<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Groups... -->
-            </td>
-          </tr>
-        </table>
+        <div class='table table-condensed' style="margin-bottom:0;">
+              <h3 class="section-title">Groups</h3>
+            <div class="js-groups-pending">
+<!--               <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... -->
+            </div>
         </div>
-    </div>
-   <!--  <a class="js-load-button" href="#"><img src='search-brushfire.png' style='width:305px;' /></button> -->
+        </div>
+    </div> 
 	   
   </div>
 
 <script id="account-template" type="text/x-handlebars-template">
-    <div class='row'>
-        <div class='col-sm-12'>
+    <div class="account-info">
             <h4>{{FirstName}} {{LastName}}</h4>
             {{#IsUser}}
               <h6 class='label label-success' style="display:inline-block;">User: 
@@ -138,30 +162,22 @@
             {{^IsUser}}
               <h6 class='label label-default'>Customer</h6><h6 class='label label-default email'>{{Email}}</h6>
             {{/IsUser}}
-        </div>
     </div>
+
 </script>
 
 <script id="attendee-template" type="text/x-handlebars-template">
-  <table class='table table-condensed' style="margin-bottom:0;">
-    <thead>
-      <tr>
-        <th>Attendees</th>
-      </tr>
-    </thead>
+  <div class='table table-condensed' style="margin-bottom:0;">
+
+        <h3 class="section-title">Attendees</h3>
+
     {{#Events}}
-      <tr>
-        <td class="js-attendees-pending"style="padding-top:10px;">
-<!--
-          <div class="row">
-              <div class='col-sm-12'>
--->
+
+        <div class="js-attendees-pending"style="padding-top:10px;">
+
                <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
                 <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
-<!--
-              </div>
-              <div class='col-sm-12'>
--->
+
                   <ul class='list-unstyled' style="margin-bottom:0;">
                   {{#Attendees}}
                     <li>
@@ -169,99 +185,67 @@
                     </li>
                   {{/Attendees}}
                   </ul>
-<!--
-              </div>
-          </div>
--->
-        </td>
-      </tr>
+
+        </div>
     {{/Events}}
     {{^Events}}
-      <tr>
-        <td class="js-attendees-pending">
-<!--
-          <div class='row'>
-            <div class='col-sm-12'>
--->
-              No Attendees Found
-<!--
-            </div>
+
+        <div class="js-attendees-pending empty">
+
+              <div class="empty-return">No Attendees Found</div>
+
           </div>
--->
-          </td>
-        </tr>
+
       {{/Events}}
-    </table>
+    </div>
 </script>
 
 <script id="order-template" type="text/x-handlebars-template">
-  <table class='table table-condensed' style="margin-bottom:0;">
-    <thead>
-      <tr>
-        <th>Orders</th>
-      </tr>
-    </thead>
+  <div class='table table-condensed' style="margin-bottom:0;">
+
+        <h3 class="section-title">Orders</h3>
+
     {{#Events}}
-        <tr>
-          <td class="js-orders-pending" style="padding-top:10px;">
-<!--
-            <div class="row">
-                <div class='col-sm-12'>
--->
+        
+          <div class="js-orders-pending" style="padding-top:10px;">
+
                   <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
                   <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
-<!--
-                </div>
-                <div class='col-sm-12'>
--->
+
                   <ul class='list-unstyled' style="margin-bottom:0;">
                     {{#Orders}}
                       <li>
                         <a href="https://brushfire.com/orders/{{OrderKey}}" target="_blank">{{OrderKey}}</a>: {{Amount}} <small>({{OrderedAt}})</small>
                       </li>
                     {{/Orders}}
-                  </ul>
-<!--
-                </div>
-            </div>
--->
-          </td>
-        </tr>
+
+          </div>
+       
     {{/Events}}
     {{^Events}}
-    <tr>
-      <td class="js-orders-pending">
-        <div class='row'>
-          <div class='col-sm-12'>
-            No Orders Found
-          </div>
-        </div>
-      </td>
-    </tr>
+    
+      <div class="js-orders-pending  empty">
+
+            <div class="empty-return">No Orders Found</div>
+
+      </div>
+    
     {{/Events}}
-  </table>
+  </div>
 </script>
 
 <script id="group-template" type="text/x-handlebars-template">
-  <table class='table table-condensed' style="margin-bottom:0;">
-    <thead>
-      <tr>
-        <th>Groups</th>
-      </tr>
-    </thead>
+  <div class='table table-condensed' style="margin-bottom:0;">
+
+        <h3 class="section-title">Groups</h3>
+
     {{#Events}}
-    <tr>
-      <td class="js-groups-pending" style="padding-top:10px;">
-<!--
-        <div class="row">
-          <div class='col-sm-12'>
--->
+
+      <div class="js-groups-pending" style="padding-top:10px;">
+
               <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
               <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
-<!--
-          </div>
-          <div class='col-sm-12'>
--->
+
             <ul class='list-unstyled' style="margin-bottom:0;">
             {{#Groups}}
               <li>
@@ -269,25 +253,20 @@
               </li>
             {{/Groups}}
             </ul>
-<!--
-          </div>  
-        </div>
--->
-      </td>
-    </tr>
+
+      </div>
+
     {{/Events}}
-    {{^Events}}
-    <tr>
-      <td class="js-groups-pending">
-        <div class='row'> 
-          <div class='col-sm-12'>
-            No Groups Found
-          </div>
-        </div>
-      </td>
-    </tr>
+	{{^Events}}
+      
+      <div class="js-groups-pending  empty">
+
+           <div class="empty-return"> No Groups Found</div>
+
+      </div>
+
     {{/Events}}
-  </table>
+  </div>
 </script>
 
 	<!-- JQuery -->
@@ -457,6 +436,7 @@
 
         }).fail(function(error)
         {
+            $(".js-account-data").addClass("no-account");
             $(".js-account-data").html(error.responseJSON.Message);
         });
 
