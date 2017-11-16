@@ -37,13 +37,10 @@
 		padding: 4px 8px;
 		margin: 0;
     }
-    .js-orders-pending, .js-attendees-pending, .js-groups-pending{
+    . js-account-data, .js-orders-pending, .js-attendees-pending, .js-groups-pending{
 	    padding: 2% 3%;
     }
     
-    .js-orders-pending.empty, .js-attendees-pending.empty, .js-groups-pending.empty{
-	    padding: 2% 0;
-    }
     
     h4{
 	    margin-top:0; 
@@ -76,16 +73,39 @@
     }
     
     .no-account{
-	    background: #BF302B;
 	    font-style: italic;
-	    color: #fff;
+	    color: #262626;
 	    padding: 2% 4%;
-	    font-size: 16px;
+	    font-size: 18px;
 		font-weight: 300;
 		margin: 4px 0 0 0;
 		display: inline-block;
 		border-radius: 3px
 	    
+    }
+    
+    span.status{
+	    font-style: italic;
+	    color: #4c4c4c;
+	    
+	    margin-left: 4px;
+	    font-size: 10px;
+	    text-transform: uppercase;
+    }
+    
+    span.status a{
+	    background: #269BD8;
+	    color: white;
+	    font-style: normal;
+	    padding: 3px 4px;
+	    border-radius: 2px;
+	    font-size: 12px;
+	    letter-spacing: 1px;
+	    
+    }
+    span.status a:hover{
+	    text-decoration: none;
+	    background: rgba(40, 155, 217, 0.68);
     }
 
 </style>
@@ -177,11 +197,20 @@
 
                <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
                 <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
-
+				
                   <ul class='list-unstyled' style="margin-bottom:0;">
                   {{#Attendees}}
                     <li>
-                    <a href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> <small>({{TypeName}})</small>
+                    <a href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> 
+                    <span class="status">
+                    {{#StatusLink}}
+                                  <a href="https://brushfire.com/{{EventNumber}}">{{Status}}</a>
+                    {{/StatusLink}}
+                    {{^StatusLink}}
+                               {{Status}}
+                    {{/StatusLink}}
+                    </span>
+                    <div class="ticket-type">({{TypeName}})</div>
                     </li>
                   {{/Attendees}}
                   </ul>
@@ -432,6 +461,7 @@
             var accountSource = $("#account-template").html();
             var template = Handlebars.compile(accountSource);
             var html = template(data);
+            $(".js-account-data").removeClass("no-account");
             $(".js-account-data").html(html);
 
         }).fail(function(error)
@@ -454,30 +484,34 @@
                   FirstName : n.FirstName,
                   LastName : n.LastName,
                   EventNumber : n.EventNumber,
+                  Status : n.Status,
+                  //StatusLink: n.Status === "Reserved" || n.Status === "Canceled",
                   EventTitle : n.EventTitle,
                   EventSubtitle: n.EventSubtitle,
                   AttendeeNumber : n.AttendeeNumber,
                   TypeName : n.TypeName
               };
-
+              
+              attendee.StatusLink = n.Status === "Reserved" || n.Status == "Canceled";
+			  
               if(data.Events[n.EventNumber.toString()] == undefined)
               {
                 data.Events[n.EventNumber.toString()] = {
                   Title: n.EventTitle,
                   Subtitle: n.EventSubtitle,
                   EventNumber : n.EventNumber,
+                  Status : n.Status,
                   Attendees: new Array()
                 };
               }
 
               data.Events[n.EventNumber.toString()].Attendees.push(attendee);
             });
-		//	console.log(data);
+			
           var attendeeSource = $("#attendee-template").html();
           var template = Handlebars.compile(attendeeSource);
-          var html = template(data);
+          var html = template(data);   
           $(".js-attendee-data").html(html);
-
         }).fail(function(error)
         {
           $(".js-attendee-data").html(error.responseJSON.Message);
@@ -561,7 +595,6 @@
         {
           $(".js-group-data").html(error.responseJSON.Message);
         });
-		//document.getElementById('bfEmail').value;
 		
      });
 	 
