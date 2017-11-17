@@ -117,6 +117,18 @@
     a.att-name{
 	    font-size: 16px;
     }
+    
+    .public-url{
+	    float: right;
+	    margin-right: 10px;
+    }
+    a.public-url{
+	    color: #6b6b6b;
+    }
+    
+    a.public-url:hover{
+	    color: #6b6b6b;
+    }
 
 </style>
 
@@ -143,14 +155,7 @@
     
     <div class="js-info-section">
         <div class='js-order-data' style="margin-bottom:20px;">
-<!--
-        <div class='table table-condensed' style="margin-bottom:0;">
-              <h3 class="section-title">Orders</h3>
-            <div class="js-orders-pending">
-              <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... 
-            </div>
-        </div>
--->
+
         </div>
     </div> 
     
@@ -158,28 +163,14 @@
     
     <div class="js-info-section">
         <div class='js-attendee-data' style="margin-bottom:20px;">
-<!--
-        <div class='table table-condensed' style="margin-bottom:0;">
-              <h3 class="section-title">Attendees</h3>
-            <div class="js-attendees-pending">
-            <i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders... 
-            </div>
-        </div>
--->
+
         </div>
     </div> 
     
 
     <div class="js-info-section">
         <div class='js-group-data' style="margin-bottom:20px;">
-<!--
-        <div class='table table-condensed' style="margin-bottom:0;">
-              <h3 class="section-title">Groups</h3>
-            <div class="js-groups-pending">
-				<i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...
-            </div>
-        </div>
--->
+
         </div>
     </div> 
 	   
@@ -187,11 +178,12 @@
 
 <script id="account-template" type="text/x-handlebars-template">
     <div class="account-info">
-            <h4>{{FirstName}} {{LastName}}</h4>
+            <h4>{{FirstName}} {{LastName}}<a class="public-url" href="https://brushfire.com/accounts/profile" target="_blank"><i class="fa fa-fw" aria-hidden="true" title="Public URL"></i></a></h4>
             {{#IsUser}}
               <h6 class='label label-success' style="display:inline-block;">User: 
               {{#Clients}}
 		            <a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank' style="font-size:inherit;color:white;text-decoration:underline;">{{ClientName}}</a>&nbsp;
+		            
 	            {{/Clients}}
 	            </h6>
             {{/IsUser}}
@@ -215,7 +207,7 @@
                 <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
 				
                   <ul class='list-unstyled' style="margin-bottom:0;">
-                  {{#Attendees}}
+                  {{#Attendees}} <a class="public-url" href="https://brushfire.com/%7Beventnumber%7D/my-attendees?attendee={{attendeeid}}" target="_blank"><i class="fa fa-fw" aria-hidden="true" title="Public URL"></i></a>
                     <li>
                     <a class="att-name" href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> 
                     <span class="status">
@@ -278,6 +270,7 @@
                     {{#Orders}}
                       <li>
                         <a href="https://brushfire.com/orders/{{OrderKey}}" target="_blank">{{OrderKey}}</a>: {{Amount}} <small>({{OrderedAt}})</small>
+						<a class="public-url" href="https://brushfire.com/orders/{{orderid}}" target="_blank"><i class="fa fa-fw" aria-hidden="true" title="Public URL"></i></a>
                       </li>
                     {{/Orders}}
 
@@ -312,6 +305,7 @@
             {{#Groups}}
               <li>
                 <a href="https://brushfire.com/{{EventNumber}}/groups?group={{Id}}&manageCode={{ManageCode}}" target="_blank">{{Name}}</a>
+				<a class="public-url" href="https://brushfire.com/{{EventNumber}}/my-attendees?group={{groupid}}" target="_blank"><i class="fa fa-fw" aria-hidden="true" title="Public URL"></i></a>
               </li>
             {{/Groups}}
             </ul>
@@ -513,6 +507,7 @@
             {
               var attendee = {
                   Email : email,
+                  attendeeid : n.Id,
                   FirstName : n.FirstName,
                   LastName : n.LastName,
                   EventNumber : n.EventNumber,
@@ -532,6 +527,7 @@
               if(data.Events[n.EventNumber.toString()] == undefined)
               {
                 data.Events[n.EventNumber.toString()] = {
+                  attendeeid : n.Id,
                   Title: n.EventTitle,
                   Subtitle: n.EventSubtitle,
                   EventNumber : n.EventNumber,
@@ -567,6 +563,7 @@
 
                 orderedAt.local();
                 var order = {
+                  orderid : n.Id,
                   OrderKey : n.OrderKey,
                   OrderedAt : orderedAt.format("l LT"),
                   OrderedAtLocal : orderedAtLocal.format("l LT"),
@@ -581,6 +578,7 @@
                 if(data.Events[n.ObjectNumber.toString()] == undefined)
                 {
                     data.Events[n.ObjectNumber.toString()] = { 
+	                    orderid : n.Id,
 	                    Title: n.ObjectTitle, 
 	                    Subtitle: n.ObjectSubtitle, 
 	                    EventNumber : n.ObjectNumber,
@@ -613,6 +611,7 @@
               {
                 data.Events[n.EventNumber.toString()] = {
                   Title: n.EventTitle,
+                  groupdid : n.Id,
                   Subtitle: n.EventSubtitle,
                   Groups: new Array()
                 }
