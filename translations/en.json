@@ -1,7 +1,7 @@
 {
   "app" : {
     "parameters": {
-      "accessKey" : { "label" : "Brushfire API Key", "helpText" : "This is the API Key which you use to access the Brushfire API. Request a key at https://developer.brushfireapp.com/key" }
+      "accessKey" : { "label" : "Brushfire API Key", "helpText" : "This is the API Key which you use to access the Brushfire API. Request a key at https://developer.brushfire.com/key" }
     }
   }
 }

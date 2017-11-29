@@ -1,14 +1,14 @@
 Jorin Slaybaugh
-jorin@brushfiretech.com
+jorin@brushfire.com
 Clayton Waters
-info@brushfiretech.com
+info@brushfire.com
 8668258252
 Operations Manager
 New app
 Brushfire
 Public App
 E-commerce & CRM
-help@brushfiretech.com
+help@brushfire.com
 
 
 View related Brushfire attendees, orders, and groups alongside tickets
@@ -27,7 +27,7 @@ To Install the Brushfire app:
 4. Enter a descriptive name for your app, then click **Install.**
 5. Provide your API Key in Brushfire > App Configuration > **Brushfire API Key**.
 
-Note: To get an API Key, please request one using the form at https://developer.brushfireapp.com/key and specify that you are setting up your Zendesk integration.
+Note: To get an API Key, please request one using the form at https://developer.brushfire.com/key and specify that you are setting up your Zendesk integration.
 
 =======================
 
