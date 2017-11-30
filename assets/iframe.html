@@ -16,19 +16,19 @@
 		font-weight: 300;
 		letter-spacing: 1px;
 	}
- 
+
     .table-condensed > thead > tr > th,
     .table-condensed > tfoot > tr > td {
       padding: 4px 8px;
       border:none;
 
     }
-    
+
     .table-condensed > thead > tr > th {
     	background:#ececec;
     }
 
-    
+
     h3.section-title{
 	    font-size: 18px;
 		font-weight: 300;
@@ -40,33 +40,33 @@
     .js-account-data, .js-orders-pending, .js-attendees-pending, .js-groups-pending{
 	    padding: 2% 0;
     }
-    
-    
+
+
     h4{
-	    margin-top:0; 
+	    margin-top:0;
     }
-    
+
     h5.event-title{
 	    font-size: 17px;
 	    margin: 4px 0 6px;
     }
-    
+
     a{
 	    color: #269BD8;
     }
-    
+
     a:hover{
 	    color: rgba(38, 155, 216, 0.8);
     }
-    
+
     h6.label.label-default{font-size: 12px;background: #f17105; margin-right: 3px; font-weight: 500}
-    
+
     h6.label.label-default.email{background: #474747;text-transform: lowercase}
-    
+
     .js-account-data{
 	    margin-bottom: 2%;
     }
-    
+
     .empty-return{
 	    background: #565656;
 	    font-style: italic;
@@ -78,28 +78,28 @@
 		display: inline-block;
 		border-radius: 3px
     }
-    
+
     .no-account{
 	    font-style: italic;
 	    color: #262626;
-	    padding: 2% 4% 2% 0; 
+	    padding: 2% 4% 2% 0;
 	    font-size: 18px;
 		font-weight: 300;
 		margin: 4px 0 0 0;
 		display: inline-block;
 		border-radius: 3px
-	    
+
     }
-    
+
     span.status{
 	    font-style: italic;
 	    color: #4c4c4c;
-	    
+
 	    margin-left: 4px;
 	    font-size: 10px;
 	    text-transform: uppercase;
     }
-    
+
     span.status a{
 	    background: #269BD8;
 	    color: white;
@@ -108,7 +108,7 @@
 	    border-radius: 2px;
 	    font-size: 12px;
 	    letter-spacing: 1px;
-	    
+
     }
     span.status a:hover{
 	    text-decoration: none;
@@ -117,73 +117,75 @@
     a.att-name{
 	    font-size: 16px;
     }
-    
+
     .public-url{
 	    float: right;
 	    margin-right: 10px;
     }
     a.public-url{
 	    color: #6b6b6b;
+      opacity:0.5;
     }
-    
+
     a.public-url:hover{
 	    color: #6b6b6b;
+      opacity: 1.0;
     }
 
 </style>
 
 <body>
   <div class="container" style="padding-left:0;padding-right:0;">
-    
+
     <div>
 	    <div style="margin-bottom: 10px; font-size: 12px;">Search Brushfire for orders, attendees and/or groups via user's email.</div>
 	    <div class="form-container">
 		    <form class="form-inline js-search-form">
   				<input type="email" style="width: 88%; display: inline" class="form-control" id="bfEmail" value="">
-  				<button type="submit" style="width: 10%; width: 10%; height: 34px; text-align: center; float: right; padding: 0;" class="btn btn-default"><i class="fa fa-search"></i></button>	
+  				<button type="submit" style="width: 10%; width: 10%; height: 34px; text-align: center; float: right; padding: 0;" class="btn btn-default"><i class="fa fa-search"></i></button>
   			</form>
 	    </div>
-    </div> 
-    
+    </div>
+
     <div class="js-info-section">
         <div class='js-account-data'>
 <!--           <i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts... -->
         </div>
     </div>
-    
 
-    
+
+
     <div class="js-info-section">
         <div class='js-order-data' style="margin-bottom:20px;">
 
         </div>
-    </div> 
-    
+    </div>
 
-    
+
+
     <div class="js-info-section">
         <div class='js-attendee-data' style="margin-bottom:20px;">
 
         </div>
-    </div> 
-    
+    </div>
+
 
     <div class="js-info-section">
         <div class='js-group-data' style="margin-bottom:20px;">
 
         </div>
-    </div> 
-	   
+    </div>
+
   </div>
 
 <script id="account-template" type="text/x-handlebars-template">
     <div class="account-info">
-            <h4>{{FirstName}} {{LastName}}<a class="public-url" href="https://brushfire.com/accounts/profile" target="_blank"><i class="fa fa-fw" aria-hidden="true" title="Public URL"></i></a></h4>
+            <h4>{{FirstName}} {{LastName}}<a class="public-url" href="https://brushfire.com/accounts/profile" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true" title="Public URL"></i></a></h4>
             {{#IsUser}}
-              <h6 class='label label-success' style="display:inline-block;">User: 
+              <h6 class='label label-success' style="display:inline-block;">User:
               {{#Clients}}
 		            <a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank' style="font-size:inherit;color:white;text-decoration:underline;">{{ClientName}}</a>&nbsp;
-		            
+
 	            {{/Clients}}
 	            </h6>
             {{/IsUser}}
@@ -205,11 +207,11 @@
 
                <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
                 <div style="font-size:smaller;font-weight:bold;font-style:italic;margin-bottom:10px;border-bottom:solid #ddd 1px;">{{Subtitle}}</div>
-				
+
                   <ul class='list-unstyled' style="margin-bottom:0;">
-                  {{#Attendees}} <a class="public-url" href="https://brushfire.com/%7Beventnumber%7D/my-attendees?attendee={{attendeeid}}" target="_blank"><i class="fa fa-fw" aria-hidden="true" title="Public URL"></i></a>
+                  {{#Attendees}} <a class="public-url" href="https://brushfire.com/{{EventNumber}}/my-attendees?attendee={{AttendeeId}}" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true" title="Public URL"></i></a>
                     <li>
-                    <a class="att-name" href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a> 
+                    <a class="att-name" href="https://brushfire.com/{{EventNumber}}/attendees?attendee={{AttendeeNumber}}&email={{Email}}" target="_blank">{{FirstName}} {{LastName}}</a>
                     <span class="status">
 <!--
                     {{#StatusLink}}
@@ -219,7 +221,7 @@
                                {{Status}}
                     {{/StatusLink}}
 -->
-                    
+
                     {{#StatusReserved}}
                     	 <a class="reserved" href="https://brushfire.com/{{EventNumber}}">{{Status}}</a>
                     {{/StatusReserved}}
@@ -230,11 +232,11 @@
                     		{{Status}}
                     {{/StatusBlank}}
                     </span>
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
                     <div class="ticket-type">({{TypeName}})</div>
                     </li>
                   {{/Attendees}}
@@ -260,7 +262,7 @@
         <h3 class="section-title">Orders</h3>
 
     {{#Events}}
-        
+
           <div class="js-orders-pending" style="padding-top:10px;">
 
                   <a href="https://brushfire.com/{{EventNumber}}" target="_blank"><h5 class="event-title">{{Title}}</h5></a>
@@ -270,21 +272,21 @@
                     {{#Orders}}
                       <li>
                         <a href="https://brushfire.com/orders/{{OrderKey}}" target="_blank">{{OrderKey}}</a>: {{Amount}} <small>({{OrderedAt}})</small>
-						<a class="public-url" href="https://brushfire.com/orders/{{orderid}}" target="_blank"><i class="fa fa-fw" aria-hidden="true" title="Public URL"></i></a>
+						<a class="public-url" href="https://brushfire.com/orders/{{OrderId}}" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true" title="Public URL"></i></a>
                       </li>
                     {{/Orders}}
 
           </div>
-       
+
     {{/Events}}
     {{^Events}}
-    
+
       <div class="js-orders-pending  empty">
 
             <div class="empty-return">No Orders Found</div>
 
       </div>
-    
+
     {{/Events}}
   </div>
 </script>
@@ -305,7 +307,7 @@
             {{#Groups}}
               <li>
                 <a href="https://brushfire.com/{{EventNumber}}/groups?group={{Id}}&manageCode={{ManageCode}}" target="_blank">{{Name}}</a>
-				<a class="public-url" href="https://brushfire.com/{{EventNumber}}/my-attendees?group={{groupid}}" target="_blank"><i class="fa fa-fw" aria-hidden="true" title="Public URL"></i></a>
+				<a class="public-url" href="https://brushfire.com/{{EventNumber}}/my-attendees?group={{GroupId}}" target="_blank"><i class="fa fa-fw fa-external-link" aria-hidden="true" title="Public URL"></i></a>
               </li>
             {{/Groups}}
             </ul>
@@ -314,7 +316,7 @@
 
     {{/Events}}
 	{{^Events}}
-      
+
       <div class="js-groups-pending  empty">
 
            <div class="empty-return"> No Groups Found</div>
@@ -380,21 +382,21 @@
       }).then( Globalize.load ).then(function() {
           Globalize.locale(locale);
       });
-     
+
      });
 
 	client.get('ticket').then(function(data) {
 	  email = data.ticket.requester.email;
 	  document.getElementById('bfEmail').value = email;
-	  
+
 	});
 
     client.metadata().then(function(data)
     {
       accessKey = data.settings.accessKey;
     });
-    
-   
+
+
 
     function getCurrencyFromCulture(culture)
     {
@@ -423,7 +425,7 @@
         return "UAH";
       }
       else if(culture == "de-AT" || culture == "nl-BE" || culture == "fr-BE" || culture == "et-EE" ||
-       culture == "fe-FI" || culture == "sv-FI" || culture == "fr-FR" || culture == "de-DE" || 
+       culture == "fe-FI" || culture == "sv-FI" || culture == "fr-FR" || culture == "de-DE" ||
        culture == "el-GR" || culture == "en-IE" || culture == "it-IT" || culture == "lv-LV" ||
        culture == "lt-LT" || culture == "fr-LU" || culture == "nl-NL" || culture == "pt-PT" ||
        culture == "sk-SK" || culture == "sl-SI" || culture == "es-ES")
@@ -434,15 +436,15 @@
       return "USD";
 
     }
-	
-	
-    
+
+
+
     function LoadData(email) {
 
      client.get('ticket').then(function(data)
      {
-       
-        
+
+
         var tokenString = btoa(accessKey + ":");
         var accountUrl = "https://api.brushfireapp.com/accounts/helpdesk/" + email;
         var attendeeUrl = "https://api.brushfireapp.com/attendees/helpdesk/" + email;
@@ -458,11 +460,11 @@
                 request.setRequestHeader("Api-Version", "2017-08-28");
             }
         };
-		
+
         $(".js-account-data").html("<i class='fa fa-circle-o-notch fa-spin'></i> Searching Accounts...");
         $(".js-order-data").html("<div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Orders</h3><div class='js-orders-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
         $(".js-attendee-data").html(" <div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Attendees</h3><div class='js-attendees-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
-		$(".js-group-data").html("<div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Groups</h3><div class='js-groups-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
+    		$(".js-group-data").html("<div class='table table-condensed' style='margin-bottom:0;'><h3 class='section-title'>Groups</h3><div class='js-groups-pending'><i class='fa fa-circle-o-notch fa-spin'></i> Searching Orders...</div></div>");
 
         $.ajax(accountUrl, requestSettings).done(function(resp)
         {
@@ -507,7 +509,7 @@
             {
               var attendee = {
                   Email : email,
-                  attendeeid : n.Id,
+                  AttendeeId : n.Id,
                   FirstName : n.FirstName,
                   LastName : n.LastName,
                   EventNumber : n.EventNumber,
@@ -517,17 +519,17 @@
                   AttendeeNumber : n.AttendeeNumber,
                   TypeName : n.TypeName
               };
-              
+
  //             attendee.StatusLink = n.Status === "Reserved" || n.Status == "Canceled";
-			  
+
 			  attendee.StatusReserved = n.Status === "Reserved";
 			  attendee.StatusCanceled = n.Status === "Canceled";
 			  attendee.StatusBlank = n.Status != "Reserved" && n.Status != "Cancelled";
-			  
+
               if(data.Events[n.EventNumber.toString()] == undefined)
               {
                 data.Events[n.EventNumber.toString()] = {
-                  attendeeid : n.Id,
+                  AttendeeId : n.Id,
                   Title: n.EventTitle,
                   Subtitle: n.EventSubtitle,
                   EventNumber : n.EventNumber,
@@ -538,10 +540,10 @@
 
               data.Events[n.EventNumber.toString()].Attendees.push(attendee);
             });
-			
+
           var attendeeSource = $("#attendee-template").html();
           var template = Handlebars.compile(attendeeSource);
-          var html = template(data);   
+          var html = template(data);
           $(".js-attendee-data").html(html);
         }).fail(function(error)
         {
@@ -550,7 +552,7 @@
 
         $.ajax(orderUrl, requestSettings).done(function(resp)
         {
-          var data = { 
+          var data = {
             Events: new Array()
           };
 
@@ -559,11 +561,11 @@
                 var orderedAt = moment.utc(n.OrderedAt).utcOffset(timeZoneOffset);
                 var orderedAtLocal = moment(n.orderedAtLocal);
 
-                var currency = getCurrencyFromCulture(n.Culture);                
+                var currency = getCurrencyFromCulture(n.Culture);
 
                 orderedAt.local();
                 var order = {
-                  orderid : n.Id,
+                  OrderId : n.Id,
                   OrderKey : n.OrderKey,
                   OrderedAt : orderedAt.format("l LT"),
                   OrderedAtLocal : orderedAtLocal.format("l LT"),
@@ -577,10 +579,10 @@
 
                 if(data.Events[n.ObjectNumber.toString()] == undefined)
                 {
-                    data.Events[n.ObjectNumber.toString()] = { 
-	                    orderid : n.Id,
-	                    Title: n.ObjectTitle, 
-	                    Subtitle: n.ObjectSubtitle, 
+                    data.Events[n.ObjectNumber.toString()] = {
+	                    OrderId : n.Id,
+	                    Title: n.ObjectTitle,
+	                    Subtitle: n.ObjectSubtitle,
 	                    EventNumber : n.ObjectNumber,
 	                    Orders: new Array() };
                 }
@@ -601,7 +603,7 @@
         $.ajax(groupUrl, requestSettings).done(function(resp)
         {
 
-          var data = { 
+          var data = {
             Events: new Array()
           };
 
@@ -611,7 +613,8 @@
               {
                 data.Events[n.EventNumber.toString()] = {
                   Title: n.EventTitle,
-                  groupdid : n.Id,
+                  EventNumber: n.EventNumber,
+                  GroupId : n.Id,
                   Subtitle: n.EventSubtitle,
                   Groups: new Array()
                 }
@@ -619,7 +622,7 @@
 
               data.Events[n.EventNumber.toString()].Groups.push(n);
           });
-          
+
           var groupSource = $("#group-template").html();
           var template = Handlebars.compile(groupSource);
           var html = template(data);
@@ -629,12 +632,12 @@
         {
           $(".js-group-data").html(error.responseJSON.Message);
         });
-		
+
      });
-	 
+
     }
-    
-	$(document).on("submit", ".js-search-form", function(e) {  
+
+	$(document).on("submit", ".js-search-form", function(e) {
 		e.preventDefault();
         LoadData($("#bfEmail").val());
 	});
