@@ -184,7 +184,7 @@
             {{#IsUser}}
               <h6 class='label label-success' style="display:inline-block;">User:
               {{#Clients}}
-		            <a href='https://{{ClientKey}}.brushfireapp.com/dashboard' target='_blank' style="font-size:inherit;color:white;text-decoration:underline;">{{ClientName}}</a>&nbsp;
+		            <a href='https://{{ClientKey}}.brushfire.com/dashboard' target='_blank' style="font-size:inherit;color:white;text-decoration:underline;">{{ClientName}}</a>&nbsp;
 
 	            {{/Clients}}
 	            </h6>
@@ -330,7 +330,7 @@
 	<!-- JQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
   <!-- https://github.com/zendesk/zendesk_app_framework_sdk -->
-  <script type="text/javascript" src="https://assets.zendesk.com/apps/sdk/2.0/zaf_sdk.js"></script>
+  <script src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
   <!--Import handlebars for templating -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <!-- Moment.js for date formatting -->
@@ -404,33 +404,41 @@
       {
         return "AUD";
       }
-      else if(culture == "en-GB")
-      {
-        return "GBP";
-      }
       else if(culture == "en-CA")
       {
         return "CAD";
       }
-      else if(culture == "en-ZA" || culture == "af-ZA")
+      else if (culture == "en-DK")
+      {
+        return "DKK";
+      }
+      else if (culture == "en-IE")
+      {
+        return "EUR";
+      }
+      else if (culture == "en-IL")
+      {
+        return "ILS";
+      }
+      else if (culture == "en-NZ")
+      {
+        return "NZD";
+      }
+      else if (culture == "en-SG")
+      {
+        return "SGD";
+      }
+      else if(culture == "en-ZA")
       {
         return "ZAR";
       }
-      else if(culture == "es-MX")
+      else if(culture == "en-SE")
       {
-        return "MXN";
+        return "SEK";
       }
-      else if(culture == "uk-UA")
+      else if(culture == "en-GB")
       {
-        return "UAH";
-      }
-      else if(culture == "de-AT" || culture == "nl-BE" || culture == "fr-BE" || culture == "et-EE" ||
-       culture == "fe-FI" || culture == "sv-FI" || culture == "fr-FR" || culture == "de-DE" ||
-       culture == "el-GR" || culture == "en-IE" || culture == "it-IT" || culture == "lv-LV" ||
-       culture == "lt-LT" || culture == "fr-LU" || culture == "nl-NL" || culture == "pt-PT" ||
-       culture == "sk-SK" || culture == "sl-SI" || culture == "es-ES")
-      {
-        return "EUR";
+        return "GBP";
       }
 
       return "USD";
@@ -446,10 +454,10 @@
 
 
         var tokenString = btoa(accessKey + ":");
-        var accountUrl = "https://api.brushfireapp.com/accounts/helpdesk/" + email;
-        var attendeeUrl = "https://api.brushfireapp.com/attendees/helpdesk/" + email;
-        var orderUrl = "https://api.brushfireapp.com/orders/helpdesk/" + email;
-        var groupUrl = "https://api.brushfireapp.com/groups/helpdesk/" + email;
+        var accountUrl = "https://api.brushfire.com/accounts/helpdesk/" + email;
+        var attendeeUrl = "https://api.brushfire.com/attendees/helpdesk/" + email;
+        var orderUrl = "https://api.brushfire.com/orders/helpdesk/" + email;
+        var groupUrl = "https://api.brushfire.com/groups/helpdesk/" + email;
         var requestSettings = {
             type:"GET",
             contentType: "application/json",
